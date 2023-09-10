@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "NodeNext",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "lib": ["ESNext"],
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types"]
+    "types": ["bun-types"],
   }
 }

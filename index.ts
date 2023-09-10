@@ -1,4 +1,3 @@
-import fs from "fs/promises";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -7,7 +6,7 @@ const __dirname = dirname(__filename);
 
 async function getNicknamesInFile(pathString: string) {
   const resolvedPath = path.resolve(__dirname, pathString);
-  const file = await fs.readFile(resolvedPath, "utf-8");
+  const file = await Bun.file(resolvedPath).text();
   const regex = /^[a-zA-Z0-9._]+$/;
   return file.split("\n").filter((line) => regex.test(line));
 }
@@ -30,6 +29,6 @@ async function findUniqueLines(file1: string, file2: string) {
 }
 
 Promise.all([
-  findUniqueLines("./data/subscriptions.txt", "./data/subscribers.txt"),
-  findUniqueLines("./data/subscribers.txt", "./data/subscriptions.txt"),
+  findUniqueLines("subscriptions.txt", "subscribers.txt"),
+  findUniqueLines("subscribers.txt", "subscriptions.txt"),
 ]).then(console.log);
