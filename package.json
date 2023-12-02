@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun --watch run index.ts",
     "build": "bun run build:clean && bun run build:bun",
-    "build:bun": "bun build --target=bun --minify index.ts --outfile=./bundle.js",
+    "build:bun": "bun build index.ts --target=bun --minify --outfile=./bundle.js",
     "build:clean": "rm -rf bundle.js",
     "start": "bun run bundle.js"
   },
