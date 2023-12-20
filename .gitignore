@@ -134,5 +134,5 @@ dist
 
 # Project specific
 bundle.js
-subscriptions.txt
-subscribers.txt
+followers.txt
+following.txt

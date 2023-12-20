@@ -4,31 +4,36 @@ import url from "node:url";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function getNicknamesInFile(pathString: string) {
-  const resolvedPath = path.resolve(__dirname, pathString);
+async function getNicknamesFromFile(filePath: string) {
+  const resolvedPath = path.resolve(__dirname, filePath);
   const file = await Bun.file(resolvedPath).text();
-  const regex = /^[a-zA-Z0-9._]+$/;
+  const regex = /^[a-z0-9._]+$/;
   return file.split("\n").filter((line) => regex.test(line));
 }
 
-async function findUniqueLines(file1: string, file2: string) {
-  const result: string[] = [];
+function findDifference<T>(arrayOne: T[], arrayTwo: T[]): T[] {
+  const set = new Set(arrayOne);
+  const difference: T[] = [];
 
-  const [file1Lines, file2Lines] = await Promise.all([
-    getNicknamesInFile(file1),
-    getNicknamesInFile(file2),
-  ]);
-
-  for (const line of file1Lines) {
-    if (!file2Lines.includes(line)) {
-      result.push(line);
+  for (const value of arrayTwo) {
+    if (!set.has(value)) {
+      difference.push(value);
     }
   }
 
-  return result;
+  return difference;
+}
+
+async function findUniqueLines(fileOnePath: string, fileTwoPath: string) {
+  const [fileOneNicknames, fileTwoNicknames] = await Promise.all([
+    getNicknamesFromFile(fileOnePath),
+    getNicknamesFromFile(fileTwoPath),
+  ]);
+
+  return findDifference(fileOneNicknames, fileTwoNicknames);
 }
 
 Promise.all([
-  findUniqueLines("subscriptions.txt", "subscribers.txt"),
-  findUniqueLines("subscribers.txt", "subscriptions.txt"),
+  findUniqueLines("following.txt", "followers.txt"),
+  findUniqueLines("followers.txt", "following.txt"),
 ]).then(console.log);
