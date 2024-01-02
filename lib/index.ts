@@ -34,6 +34,6 @@ async function findUniqueLines(fileOnePath: string, fileTwoPath: string) {
 }
 
 Promise.all([
-  findUniqueLines("following.txt", "followers.txt"),
-  findUniqueLines("followers.txt", "following.txt"),
+  findUniqueLines("../data/following.txt", "../data/followers.txt"),
+  findUniqueLines("../data/followers.txt", "../data/following.txt"),
 ]).then(console.log);
